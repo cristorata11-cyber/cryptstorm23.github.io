@@ -3,33 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CryptStorm</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <title>Free Key - Jack x Lennon</title> 
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-    
-    <div class="logo-container">
-        <img src="assets/logo.png" alt="CryptStorm Logo" class="animated-logo">
-    </div>
-
-    <div class="main-card">
-        <h1>CryptStorm</h1>
+    <div class="container">
         
-        <div class="key-display-box">
-            <span id="key-output">Presiona "Generate Key"</span>
-        </div>
+        <a href="#" class="halloween-event-button">
+            HALLOWEEN
+        </a>
 
-        <div class="buttons-group">
-            <button id="generate-key-btn" class="action-button generate-key-btn">Generate Key</button>
+        <h1>Free Key - Jack x Lennon</h1>
+
+        <div class="key-box-wrapper">
+            <p class="selection-block-message">La selección y copia están bloqueadas</p>
             
-            <button id="copy-key-btn" class="action-button copy-key-btn">Copy Key</button>
+            <div class="key-container">
+                <span id="key-output" class="key-text">•••••-•••••-•••••-•••••-•••••</span>
+            </div>
+        </div>
+
+        <div class="buttons">
+            <button class="action-button get-key-button">GET KEY</button>
+            <button class="action-button copy-key-button">COPY KEY</button>
         </div>
         
-        <p id="status-message"></p>
+        <p id="status-message" class="status-message"></p>
 
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        // Lógica de JavaScript para bloquear clic derecho (context menu) y la selección
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('selectstart', event => event.preventDefault());
+        
+        // Bloquea el evento de copiar y muestra un mensaje
+        document.addEventListener('copy', event => {
+            document.getElementById('status-message').textContent = 'La selección y copia están bloqueadas.';
+            event.preventDefault();
+        });
+
+        // Función para generar un código aleatorio
+        function generateRandomKey() {
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let key = '';
+            for (let i = 0; i < 5; i++) {
+                let block = '';
+                for (let j = 0; j < 5; j++) {
+                    block += chars.charAt(Math.floor(Math.random() * chars.length));
+                }
+                key += block;
+                if (i < 4) {
+                    key += '-';
+                }
+            }
+            return key;
+        }
+
+        // Lógica para los botones
+        document.querySelector('.get-key-button').addEventListener('click', () => {
+             const newKey = generateRandomKey();
+             document.getElementById('key-output').textContent = newKey;
+             document.getElementById('status-message').textContent = 'Clave generada.';
+        });
+        
+        document.querySelector('.copy-key-button').addEventListener('click', () => {
+            const keyText = document.getElementById('key-output').textContent;
+            
+            if (keyText === '•••••-•••••-•••••-•••••-•••••') { // Si la clave no ha sido generada aún
+                document.getElementById('status-message').textContent = '¡Primero genera una clave!';
+                return;
+            }
+
+            // Intenta copiar
+            navigator.clipboard.writeText(keyText).then(() => {
+                document.getElementById('status-message').textContent = 'Clave copiada.'; // Mensaje CORREGIDO
+            }, (err) => {
+                document.getElementById('status-message').textContent = 'Error al copiar la clave.';
+                console.error('Error al copiar: ', err);
+            });
+        });
+    </script>
 </body>
 </html>
