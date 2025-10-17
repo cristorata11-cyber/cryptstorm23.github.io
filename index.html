@@ -3,96 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Free Key - Jack x Lennon</title> 
-    <link rel="stylesheet" href="style.css"> 
+    <title>Free Key - Zamas x Lennon</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
-    
-    <img src="assets/logo.png" alt="Logo Animado" class="main-logo">
-    
-    <div class="container">
-        
-        <a href="#" class="halloween-event-button">
-            HALLOWEEN
-        </a>
 
-        <h1>Free Key - Jack x Lennon</h1>
-
-        <div class="key-box-wrapper">
-            <div class="key-container">
-                <span id="key-output" class="key-text">PRESIONA GET KEY</span> 
-            </div>
-        </div>
-
-        <div class="buttons">
-            <button class="action-button get-key-button">GET KEY</button>
-            <button class="action-button copy-key-button">COPY KEY</button>
-        </div>
-        
-        <p id="status-message" class="status-message"></p>
-
+    <div id="movingLogo">
+        <img src="logo.png" alt="Logo animado" class="logo-image">
     </div>
 
-    <p class="selection-block-message outside-block-message">La selección y copia están bloqueadas</p>
+    <div class="container">
+        <div class="card">
+            <div class="header">
+                <span class="badge">HALLOWEEN</span>
+                <h1 class="title">Free Key - Zamas x Lennon</h1>
+            </div>
 
-    <script>
-        // ENLACE CAMUFLADO DE ROBLOX
-        const SECRET_LINK = "https://www.roblox.com/share?code=57ca564c3f69994ca17f85f810d38fb4&type=Server"; 
+            <div class="content">
+                <div class="key-area">
+                    <pre id="keyDisplay">
+* * * * -
+* * * * -
+* * * * -
+* * * *
+                    </pre>
+                </div>
 
-        // Bloqueo FUNCIONAL (invisible): evita clic derecho y copia directa
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('copy', event => {
-            document.getElementById('status-message').textContent = 'La selección y copia están bloqueadas.';
-            event.preventDefault();
-        });
+                <div class="button-group">
+                    <button id="getKeyButton" class="btn btn-primary">GET KEY</button>
+                    <button id="copyKeyButton" class="btn btn-secondary">
+                        <span class="icon">📄</span> COPY KEY
+                    </button>
+                </div>
 
-        // Función para generar una clave aleatoria (5 bloques de 5)
-        function generateRandomKey() {
-            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-            let key = '';
-            for (let i = 0; i < 5; i++) {
-                let block = '';
-                for (let j = 0; j < 5; j++) {
-                    block += chars.charAt(Math.floor(Math.random() * chars.length));
-                }
-                key += block;
-                if (i < 4) {
-                    key += '-';
-                }
-            }
-            return key;
-        }
+                <p class="lock-message">
+                    La selección y copia están bloqueadas.
+                </p>
+            </div>
+        </div>
+    </div>
 
-        // Lógica para el botón GET KEY
-        document.querySelector('.get-key-button').addEventListener('click', () => {
-             const newKey = generateRandomKey();
-             document.getElementById('key-output').textContent = newKey;
-             document.getElementById('status-message').textContent = 'Clave generada. Lista para copiar.';
-        });
-        
-        // Lógica para el botón COPY KEY: Copia y Abre el Link Camuflado
-        document.querySelector('.copy-key-button').addEventListener('click', () => {
-            const keyText = document.getElementById('key-output').textContent;
-            
-            if (keyText === 'PRESIONA GET KEY') { 
-                document.getElementById('status-message').textContent = '¡Primero genera una clave!';
-                return;
-            }
-
-            // Copiar la clave
-            navigator.clipboard.writeText(keyText).then(() => {
-                document.getElementById('status-message').textContent = 'Clave copiada.'; 
-                
-                // Abre el enlace de Roblox Camuflado
-                setTimeout(() => {
-                    window.open(SECRET_LINK, '_blank');
-                }, 100); 
-                
-            }, (err) => {
-                document.getElementById('status-message').textContent = 'Error al copiar la clave.';
-                console.error('Error al copiar: ', err);
-            });
-        });
-    </script>
+    <div class="pause-button">
+        <div class="pause-icon"></div>
+    </div>
+    
+    <script src="script.js"></script>
 </body>
 </html>

@@ -1,221 +1,178 @@
-/* Colores y estilos basados en la imagen original (tema oscuro naranja/púrpura) */
 :root {
-    --bg-color-dark: #1e1e2d; 
-    --card-bg-color: #2b2b40; 
-    --card-border-color: #40405a; 
-    --halloween-btn-bg: #cc9900; 
-    --getkey-btn-bg: #ff8c00; 
-    --copykey-btn-bg: #3c3c54; 
-    --text-color-light: #e0e0e0; 
-    --text-color-title: #ffffff; 
-    --selection-block-text: #ff4040; 
-    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    /* Variables de Color */
+    --color-dark-card: #2c2c42;
+    --color-dark-blue: #1a1a2e;
+    --color-text-light: #e0e0f0;
+    --color-orange-primary: #ff8c00; /* Botón GET KEY */
+    --color-dark-secondary: #3e4256; /* Botón COPY KEY */
+    --color-badge-bg: #e69a00; /* Fondo del badge HALLOWEEN */
+    --color-background-main: #141420; /* Fondo principal muy oscuro */
 }
 
 body {
-    background-color: var(--bg-color-dark);
-    color: var(--text-color-light);
-    font-family: var(--font-family);
+    font-family: 'Roboto', sans-serif;
+    background-color: var(--color-background-main);
+    color: var(--color-text-light);
     display: flex;
-    flex-direction: column; 
+    flex-direction: column; /* Permite que el logo esté encima de la tarjeta */
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
-    text-align: center;
-    overflow: hidden; 
-}
-
-/* 🌧️ Lluvia Animada MÁS VISIBLE */
-body::before {
-    content: '';
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Aumentamos la opacidad de los puntos de la lluvia para que se vean más */
-    background-image: 
-        radial-gradient(circle, rgba(255, 255, 255, 0.10) 1px, transparent 1px), /* 0.10 (antes 0.05) */
-        radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px);  /* 0.06 (antes 0.03) */
-    background-size: 40px 40px, 60px 60px;
-    background-position: 0 0, 10px 10px;
-    opacity: 1;
-    animation: rain-fall 15s linear infinite; 
-    z-index: -1;
-}
-
-@keyframes rain-fall {
-    from {
-        background-position: 0 0, 10px 10px;
-    }
-    to {
-        background-position: 0 500px, 10px 500px;
-    }
-}
-
-/* LOGO GRANDE y POSICIONADO */
-.main-logo {
-    width: 120px; 
-    height: auto; 
-    position: absolute; 
-    top: 50px; 
-    /* El centrado inicial sigue siendo necesario */
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 10;
     
-    /* 🐕 Animación de movimiento HORIZONTAL: se mueve sobre el eje X */
-    animation: move-logo 4s ease-in-out infinite alternate; 
+    /* BLOQUEO DE SELECCIÓN Y COPIA */
+    user-select: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+
+    /* Simulación de fondo oscuro/lluvioso/puntos */
+    background-image: radial-gradient(circle at top right, rgba(255, 255, 255, 0.1) 1px, transparent 1px), 
+                      linear-gradient(180deg, rgba(0,0,0,0.5), rgba(0,0,0,0.8));
+    background-size: 10px 10px, 100% 100%;
 }
 
-/* Definición de la animación de movimiento horizontal */
-@keyframes move-logo {
-    0% { 
-        /* Posición inicial: Centrado y movido 30px a la izquierda */
-        transform: translate(calc(-50% - 30px), 0); 
-    }
-    100% { 
-        /* Posición final: Centrado y movido 30px a la derecha */
-        transform: translate(calc(-50% + 30px), 0); 
-    }
+/* ------------------------------------------- */
+/* ESTILOS Y ANIMACIÓN DEL LOGO */
+/* ------------------------------------------- */
+
+/* Define el movimiento de ida y vuelta */
+@keyframes slideLogo {
+    0% { transform: translateX(-50px); } /* Inicia a la izquierda */
+    50% { transform: translateX(50px); }  /* Llega al centro-derecha */
+    100% { transform: translateX(-50px); } /* Vuelve a la izquierda */
 }
+
+#movingLogo {
+    margin-bottom: 20px;
+    z-index: 10;
+    width: 100%; /* Permite que la animación se extienda */
+    text-align: center;
+}
+
+.logo-image {
+    width: 80%; /* Hacemos el logo grande, casi al ancho de la tarjeta */
+    max-width: 280px;
+    height: auto;
+    /* Aplica la animación */
+    animation: slideLogo 5s ease-in-out infinite alternate; 
+}
+/* ------------------------------------------- */
 
 .container {
-    background-color: var(--card-bg-color);
-    padding: 25px; 
-    border-radius: 15px; 
-    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6); 
-    width: 90%;
-    max-width: 320px; 
-    border: 1px solid var(--card-border-color);
-    margin-bottom: 5px; 
-    margin-top: 100px; 
+    padding: 20px;
+    z-index: 10;
 }
 
-/* Botón HALLOWEEN */
-.halloween-event-button {
-    display: inline-block;
-    background-color: var(--halloween-btn-bg);
-    color: var(--text-color-dark); 
-    padding: 6px 12px;
+/* Estilo de la tarjeta central */
+.card {
+    background-color: var(--color-dark-card);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    width: 300px;
+    max-width: 90vw;
+}
+
+.badge {
+    background-color: var(--color-badge-bg);
+    color: #333;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 4px 8px;
+    border-radius: 5px;
+    text-transform: uppercase;
+    align-self: flex-start;
+    margin-bottom: 10px;
+}
+
+.title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+    color: var(--color-text-light);
+}
+
+/* Área de visualización de la clave */
+.key-area {
+    background-color: var(--color-dark-blue);
+    border-radius: 8px;
+    padding: 15px;
     margin-bottom: 20px;
-    border-radius: 8px; 
-    font-weight: 600; 
-    font-size: 0.8em; 
-    float: left; 
+    text-align: center;
+    box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Título */
-h1 {
-    color: var(--text-color-title);
-    font-size: 1.5em; 
-    font-weight: 600; 
-    text-align: left; 
-    margin-top: 0;
-    margin-bottom: 25px; 
-    clear: both; 
+#keyDisplay {
+    font-family: monospace;
+    font-size: 16px;
+    color: var(--color-text-light);
+    margin: 0;
+    line-height: 1.2;
+    white-space: pre-wrap;
 }
 
-/* ************************************************** */
-/* GRID PRINCIPAL: Dos Columnas */
-/* ************************************************** */
-.main-grid {
-    display: grid;
-    grid-template-columns: 1fr 1.5fr; 
-    gap: 10px; 
-    width: 100%;
-    align-items: stretch; 
-}
-
-/* Columna Izquierda: GET KEY */
-.get-key-button {
-    background-color: var(--getkey-btn-bg);
-    color: var(--text-color-dark);
-    padding: 15px 10px;
-    font-size: 1em; 
-    font-weight: 700;
-    border: none;
-    border-radius: 10px; 
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.5);
-    height: 100%; 
-}
-
-/* Columna Derecha: Clave y COPY KEY */
-.key-and-copy-container {
-    display: grid;
-    grid-template-rows: 1fr 1fr; 
-    gap: 10px; 
-}
-
-/* CAJA DE CLAVE CON PUNTOS */
-.key-box-wrapper {
-    background-color: var(--card-bg-color);
-    border: 1px solid #4a4a60; 
-    border-radius: 10px;
+/* Botones */
+.button-group {
     display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 5px; 
-    height: 100%;
+    gap: 10px;
+    margin-bottom: 15px;
 }
 
-/* ESTILO DE LA CLAVE DENTRO DE LA CAJA (PUNTOS MULTILÍNEA) */
-.key-text {
-    color: var(--text-color-light); 
-    font-size: 0.9em; 
-    user-select: none; 
-    pointer-events: none;
-    filter: blur(0.5px); 
-    opacity: 0.9; 
-    letter-spacing: 2px;
-    font-weight: 500;
-    line-height: 1.3; 
-    white-space: pre-wrap; 
-    word-break: break-all;
-}
-
-/* BOTÓN COPY KEY */
-.copy-key-button {
-    background-color: var(--copykey-btn-bg);
-    color: var(--text-color-light);
+.btn {
+    flex-grow: 1;
+    padding: 12px 15px;
     border: none;
-    position: relative;
-    padding: 10px 10px 10px 45px; 
-    font-size: 0.9em; 
+    border-radius: 8px;
     font-weight: 700;
-    border-radius: 10px; 
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-    height: 100%; 
+    cursor: pointer;
+    transition: background-color 0.2s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
-.copy-key-button::before {
-    content: '📄'; 
-    position: absolute;
-    left: 15px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1em;
-    color: var(--text-color-light);
+.btn-primary { 
+    background-color: var(--color-orange-primary);
+    color: #000;
 }
 
-/* Mensaje de advertencia (Debajo de la Grid) */
-.selection-block-message {
-    color: var(--selection-block-text); 
-    background-color: transparent;
-    padding: 0;
-    font-size: 0.8em; 
-    font-weight: 500;
-    margin-top: 10px; 
-    text-align: left; 
+.btn-secondary {
+    background-color: var(--color-dark-secondary);
+    color: var(--color-text-light);
 }
 
-/* Mensaje de estado ("Clave copiada") */
-.status-message {
-    color: var(--text-color-light); 
-    font-size: 0.85em;
-    min-height: 1.1em; 
-    margin-top: 5px; 
-    font-weight: 500;
-    text-align: left; 
+.btn-secondary .icon {
+    margin-right: 5px;
+}
+
+.lock-message {
+    font-size: 12px;
+    color: rgba(224, 224, 240, 0.7);
+    text-align: center;
+    margin: 0;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Estilo del botón de pausa (simulación visual) */
+.pause-button {
+    position: fixed;
+    bottom: 50px;
+    left: 20px;
+    width: 30px;
+    height: 30px;
+    background-color: var(--color-orange-primary);
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0.8;
+}
+
+.pause-icon {
+    width: 4px;
+    height: 15px;
+    background-color: #000;
+    box-shadow: 8px 0 0 #000;
 }

@@ -1,61 +1,63 @@
-// Link Secreto que se abrirá al copiar la clave
-const SECRET_LINK = "https://www.roblox.com/share?code=57ca564c3f69994ca17f85f810d38fb4&type=Server";
-
-// Función para generar un código aleatorio (ejemplo: A72KF-93XJZ-1QW7T)
-function generateRandomKey() {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    let key = '';
-    
-    // Genera 5 bloques de 5 caracteres
-    for (let i = 0; i < 5; i++) {
-        let block = '';
-        for (let j = 0; j < 5; j++) {
-            block += chars.charAt(Math.floor(Math.random() * chars.length));
-        }
-        key += block;
-        if (i < 4) {
-            key += '-';
-        }
-    }
-    return key;
-}
-
 document.addEventListener('DOMContentLoaded', () => {
-    const keyOutput = document.getElementById('key-output');
-    const generateBtn = document.getElementById('generate-key-btn');
-    const copyBtn = document.getElementById('copy-key-btn');
-    const statusMessage = document.getElementById('status-message');
+    const getKeyButton = document.getElementById('getKeyButton');
+    const copyKeyButton = document.getElementById('copyKeyButton');
+    const keyDisplay = document.getElementById('keyDisplay');
 
-    // Función del botón GENERATE KEY
-    generateBtn.addEventListener('click', () => {
+    // ESTE ES EL LINK OCULTO QUE SERÁ COPIADO
+    const hiddenRobloxUrl = "https://www.roblox.com/share?code=57ca564c3f69994ca17f85f810d38fb4&type=Server";
+
+    // Función para generar una clave aleatoria alfanumérica de 20 caracteres
+    function generateRandomKey() {
+        const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+        let key = '';
+        for (let i = 0; i < 20; i++) {
+            key += characters.charAt(Math.floor(Math.random() * characters.length));
+        }
+        return key;
+    }
+
+    // Lógica para el botón 'GET KEY'
+    getKeyButton.addEventListener('click', () => {
         const newKey = generateRandomKey();
-        keyOutput.textContent = newKey;
-        statusMessage.textContent = 'Clave generada. ¡Cópiala!';
+        
+        // Formatea la clave para que se muestre en 3 líneas con guiones:
+        const formattedKey = 
+            newKey.substring(0, 4) + '-' + newKey.substring(4, 8) + '\n' +
+            newKey.substring(8, 12) + '-' + newKey.substring(12, 16) + '\n' +
+            newKey.substring(16, 20); 
+        
+        keyDisplay.textContent = formattedKey;
+
+        // Feedback visual: Cambia el botón después de obtener la clave
+        getKeyButton.style.backgroundColor = 'green';
+        getKeyButton.textContent = 'KEY GENERATED';
+        setTimeout(() => {
+            getKeyButton.style.backgroundColor = ''; // Restablecer (usará el color de CSS)
+            getKeyButton.textContent = 'GET KEY';
+        }, 3000);
     });
 
-    // Función del botón COPY KEY
-    copyBtn.addEventListener('click', () => {
-        const key = keyOutput.textContent;
-
-        if (key === 'Presiona "Generate Key"') {
-            statusMessage.textContent = '¡Primero genera una clave!';
-            return;
-        }
-
-        // Copia el código al portapapeles
-        navigator.clipboard.writeText(key)
+    // Lógica para el botón 'COPY KEY' (copia la URL oculta)
+    copyKeyButton.addEventListener('click', () => {
+        // Usa la API del Portapapeles para copiar el link oculto.
+        navigator.clipboard.writeText(hiddenRobloxUrl)
             .then(() => {
-                statusMessage.textContent = '✅ Clave copiada y link secreto abriéndose...';
+                // Notificación de éxito
+                const originalText = copyKeyButton.innerHTML;
+                copyKeyButton.innerHTML = '<span class="icon">✅</span> COPIED!';
                 
-                // Abre automáticamente el link secreto en una nueva pestaña después de un breve momento
+                // Feedback visual: color verde temporal
+                const originalColor = copyKeyButton.style.backgroundColor;
+                copyKeyButton.style.backgroundColor = 'green';
+
                 setTimeout(() => {
-                    window.open(SECRET_LINK, '_blank');
-                }, 500);
-                
+                    copyKeyButton.innerHTML = originalText;
+                    copyKeyButton.style.backgroundColor = originalColor; // Restablecer color
+                }, 1500);
             })
             .catch(err => {
-                statusMessage.textContent = '❌ Error al copiar. Intenta copiar manualmente.';
-                console.error('Error al copiar: ', err);
+                // Mensaje de error si la copia falla
+                alert('Fallo al copiar el link. Por favor, asegúrate de tener una clave generada y que tu navegador lo permita.');
             });
     });
 });
