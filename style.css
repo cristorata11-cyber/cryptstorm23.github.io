@@ -26,7 +26,7 @@ body {
     overflow: hidden; 
 }
 
-/* 🌧️ Lluvia Animada: Puntos que caen sutilmente (Ahora con movimiento) */
+/* 🌧️ Lluvia Animada */
 body::before {
     content: '';
     position: fixed;
@@ -53,17 +53,17 @@ body::before {
     }
 }
 
-/* 1. ESTILO DEL LOGO: Ajustado para que flote en la parte superior */
+/* Ajuste del TAMAÑO del LOGO */
 .main-logo {
-    width: 60px; /* Tamaño del logo */
-    height: 60px;
-    position: absolute; /* Posicionamiento absoluto */
-    top: 50px; /* Separación de la parte superior (ajusta si es necesario) */
+    width: 120px; /* Tamaño del logo AUMENTADO (anteriormente 60px) */
+    height: auto; /* Altura automática para mantener proporciones */
+    position: absolute; 
+    top: 50px; 
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    /* Si deseas que se mueva como en las otras versiones, añade esta línea: 
-    animation: float 5s ease-in-out infinite alternate; */
+    /* Puedes añadir la animación de "float" si quieres que tenga un pequeño movimiento */
+    /* animation: float 5s ease-in-out infinite alternate; */
 }
 
 @keyframes float {
@@ -76,11 +76,11 @@ body::before {
     padding: 25px 35px;
     border-radius: 15px; 
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6); 
-    width: 90%;
-    max-width: 350px;
+    width: 90%; 
+    max-width: 320px; /* ANCHO MÁXIMO DE LA TARJETA AJUSTADO (anteriormente 350px) */
     border: 1px solid var(--card-border-color);
     margin-bottom: 20px; 
-    margin-top: 100px; /* Empuja el contenedor hacia abajo por el logo */
+    margin-top: 100px; 
 }
 
 /* Botón HALLOWEEN */
@@ -117,7 +117,7 @@ h1 {
     padding: 10px;
 }
 
-/* EL CÓDIGO ALETATORIO ES VISIBLE Y CLARO */
+/* CÓDIGO ALEATORIO VISIBLE Y CLARO */
 .key-text {
     color: var(--text-color-light); 
     font-size: 1.1em;
@@ -127,9 +127,11 @@ h1 {
     opacity: 1; 
     letter-spacing: 1px;
     font-weight: 500;
+    /* Para claves muy largas, asegura que se ajusten */
+    word-break: break-all; 
 }
 
-/* MENSAJE DE ADVERTENCIA MOVIDO FUERA DEL CUADRO PRINCIPAL (Ajustado al pie) */
+/* MENSAJE DE ADVERTENCIA MOVIDO AL PIE */
 .outside-block-message {
     color: var(--selection-block-text); 
     background-color: transparent;
@@ -188,4 +190,34 @@ h1 {
     min-height: 1.1em; 
     margin-top: 5px; 
     font-weight: 500;
+}
+
+/* Media Query para pantallas más pequeñas si es necesario ajustar aún más */
+@media (max-width: 400px) {
+    .container {
+        max-width: 95%; /* Permite que sea un poco más ancho si el contenido no cabe */
+        padding: 20px 25px; /* Reduce un poco el padding */
+    }
+    .main-logo {
+        width: 100px; /* Reduce el logo un poco en pantallas muy pequeñas */
+        top: 30px; /* Lo sube un poco */
+    }
+    .halloween-event-button {
+        padding: 5px 10px;
+        font-size: 0.75em;
+    }
+    h1 {
+        font-size: 1.3em;
+    }
+    .key-text {
+        font-size: 1em;
+    }
+    .action-button {
+        font-size: 0.9em;
+        padding: 12px 8px;
+    }
+    .copy-key-button::before {
+        left: 10px;
+        font-size: 1em;
+    }
 }
