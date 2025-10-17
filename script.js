@@ -1,68 +1,61 @@
-const canvas = document.getElementById('rain');
-const ctx = canvas.getContext('2d');
+// Link Secreto que se abrirá al copiar la clave
+const SECRET_LINK = "https://www.roblox.com/share?code=57ca564c3f69994ca17f85f810d38fb4&type=Server";
 
-canvas.width = window.innerWidth;
-canvas.height = window.innerHeight;
-
-let drops = [];
-for (let i = 0; i < 150; i++) {
-  drops.push({
-    x: Math.random() * canvas.width,
-    y: Math.random() * canvas.height,
-    length: Math.random() * 15 + 10,
-    speed: Math.random() * 4 + 2
-  });
-}
-
-function drawRain() {
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
-  ctx.strokeStyle = 'rgba(200,200,200,0.5)';
-  ctx.lineWidth = 1;
-  ctx.beginPath();
-  for (let i = 0; i < drops.length; i++) {
-    const d = drops[i];
-    ctx.moveTo(d.x, d.y);
-    ctx.lineTo(d.x, d.y + d.length);
-  }
-  ctx.stroke();
-  moveRain();
-}
-
-function moveRain() {
-  for (let i = 0; i < drops.length; i++) {
-    const d = drops[i];
-    d.y += d.speed;
-    if (d.y > canvas.height) {
-      d.y = -20;
-      d.x = Math.random() * canvas.width;
+// Función para generar un código aleatorio (ejemplo: A72KF-93XJZ-1QW7T)
+function generateRandomKey() {
+    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    let key = '';
+    
+    // Genera 5 bloques de 5 caracteres
+    for (let i = 0; i < 5; i++) {
+        let block = '';
+        for (let j = 0; j < 5; j++) {
+            block += chars.charAt(Math.floor(Math.random() * chars.length));
+        }
+        key += block;
+        if (i < 4) {
+            key += '-';
+        }
     }
-  }
+    return key;
 }
 
-function animate() {
-  drawRain();
-  requestAnimationFrame(animate);
-}
-animate();
+document.addEventListener('DOMContentLoaded', () => {
+    const keyOutput = document.getElementById('key-output');
+    const generateBtn = document.getElementById('generate-key-btn');
+    const copyBtn = document.getElementById('copy-key-btn');
+    const statusMessage = document.getElementById('status-message');
 
-// Generador de clave
-const codeField = document.getElementById('code');
-const generateBtn = document.getElementById('generate');
-const copyBtn = document.getElementById('copy');
+    // Función del botón GENERATE KEY
+    generateBtn.addEventListener('click', () => {
+        const newKey = generateRandomKey();
+        keyOutput.textContent = newKey;
+        statusMessage.textContent = 'Clave generada. ¡Cópiala!';
+    });
 
-function generateCode() {
-  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-  let code = '';
-  for (let i = 0; i < 10; i++) {
-    code += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
-  codeField.value = code;
-}
+    // Función del botón COPY KEY
+    copyBtn.addEventListener('click', () => {
+        const key = keyOutput.textContent;
 
-generateBtn.addEventListener('click', generateCode);
+        if (key === 'Presiona "Generate Key"') {
+            statusMessage.textContent = '¡Primero genera una clave!';
+            return;
+        }
 
-copyBtn.addEventListener('click', () => {
-  if (codeField.value.trim() === '') return;
-  navigator.clipboard.writeText(codeField.value);
-  window.open('https://www.roblox.com/share?code=57ca564c3f69994ca17f85f810d38fb4&type=Server', '_blank');
+        // Copia el código al portapapeles
+        navigator.clipboard.writeText(key)
+            .then(() => {
+                statusMessage.textContent = '✅ Clave copiada y link secreto abriéndose...';
+                
+                // Abre automáticamente el link secreto en una nueva pestaña después de un breve momento
+                setTimeout(() => {
+                    window.open(SECRET_LINK, '_blank');
+                }, 500);
+                
+            })
+            .catch(err => {
+                statusMessage.textContent = '❌ Error al copiar. Intenta copiar manualmente.';
+                console.error('Error al copiar: ', err);
+            });
+    });
 });
