@@ -1,16 +1,15 @@
-/* Colores y estilos basados en la imagen original */
+/* Colores y estilos basados en la imagen original (tema oscuro naranja/púrpura) */
 :root {
-    --bg-color-dark: #12121e; /* Fondo muy oscuro, ligeramente azulado/púrpura */
-    --card-bg-color: #24243a; /* Fondo de la tarjeta, un poco más claro que el fondo */
-    --card-border-color: #40405a; /* Borde de la tarjeta */
-    --halloween-btn-bg: #e08e00; /* Naranja del botón HALLOWEEN */
-    --getkey-btn-bg: #e08e00; /* Naranja del botón GET KEY */
-    --copykey-btn-bg: #3c3c54; /* Gris oscuro del botón COPY KEY */
-    --text-color-light: #e0e0e0; /* Texto claro general */
-    --text-color-title: #ffffff; /* Color del título */
-    --key-text-color: #bbbbbb; /* Color de la clave borrosa */
-    --selection-block-text: #ff4040; /* Rojo para el mensaje de bloqueo */
-    --font-family: 'SF Pro Text', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol'; /* Fuente de iOS para máxima similitud */
+    --bg-color-dark: #1e1e2d; 
+    --card-bg-color: #2b2b40; 
+    --card-border-color: #40405a; 
+    --halloween-btn-bg: #cc9900; 
+    --getkey-btn-bg: #ff8c00; 
+    --copykey-btn-bg: #3c3c54; 
+    --text-color-light: #e0e0e0; 
+    --text-color-title: #ffffff; 
+    --selection-block-text: #ff4040; 
+    --font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
 }
 
 body {
@@ -18,176 +17,175 @@ body {
     color: var(--text-color-light);
     font-family: var(--font-family);
     display: flex;
+    flex-direction: column; 
     justify-content: center;
     align-items: center;
     min-height: 100vh;
     margin: 0;
     text-align: center;
-    overflow: hidden; /* Evita barras de desplazamiento si la "lluvia" es muy grande */
+    overflow: hidden; 
+}
 
-    /* Fondo de "lluvia" de puntos, tal cual la imagen */
+/* 🌧️ Lluvia Animada: Puntos que caen sutilmente (Ahora con movimiento) */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     background-image: 
-        radial-gradient(circle at 1px 1px, rgba(255, 255, 255, 0.08) 1px, transparent 1px),
-        radial-gradient(circle at 20px 20px, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px; /* Tamaño de los "cuadrados" de la lluvia */
-    background-position: 0 0, 10px 10px; /* Desplazamiento para un patrón asimétrico */
+        radial-gradient(circle, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        radial-gradient(circle, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+    background-size: 40px 40px, 60px 60px;
+    background-position: 0 0, 10px 10px;
+    opacity: 1;
+    animation: rain-fall 15s linear infinite; 
+    z-index: -1;
+}
+
+@keyframes rain-fall {
+    from {
+        background-position: 0 0, 10px 10px;
+    }
+    to {
+        background-position: 0 500px, 10px 500px;
+    }
+}
+
+/* 1. ESTILO DEL LOGO: Ajustado para que flote en la parte superior */
+.main-logo {
+    width: 60px; /* Tamaño del logo */
+    height: 60px;
+    position: absolute; /* Posicionamiento absoluto */
+    top: 50px; /* Separación de la parte superior (ajusta si es necesario) */
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    /* Si deseas que se mueva como en las otras versiones, añade esta línea: 
+    animation: float 5s ease-in-out infinite alternate; */
+}
+
+@keyframes float {
+    0% { transform: translate(-50%, 0px); }
+    100% { transform: translate(-50%, 15px); }
 }
 
 .container {
     background-color: var(--card-bg-color);
-    padding: 30px 40px;
-    border-radius: 15px; /* Bordes más redondeados como en la imagen */
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5); /* Sombra más suave */
+    padding: 25px 35px;
+    border-radius: 15px; 
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6); 
     width: 90%;
-    max-width: 400px; /* Ajuste el tamaño para que se vea similar al iPhone */
-    border: 1px solid var(--card-border-color); /* Borde sutil */
+    max-width: 350px;
+    border: 1px solid var(--card-border-color);
+    margin-bottom: 20px; 
+    margin-top: 100px; /* Empuja el contenedor hacia abajo por el logo */
 }
 
 /* Botón HALLOWEEN */
 .halloween-event-button {
     display: inline-block;
     background-color: var(--halloween-btn-bg);
-    color: white;
-    padding: 8px 15px; /* Relleno ajustado */
-    margin-bottom: 25px;
-    border-radius: 6px; /* Bordes ligeramente más suaves */
-    text-decoration: none;
-    font-weight: 600; /* Un poco más de peso */
-    font-size: 0.9em; /* Tamaño de fuente más pequeño */
-    letter-spacing: 0.5px; /* Espaciado más sutil */
-    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.4);
-    transition: transform 0.2s ease-in-out;
+    color: var(--text-color-dark); 
+    padding: 6px 12px;
+    margin-bottom: 20px;
+    border-radius: 8px; 
+    font-weight: 600; 
+    font-size: 0.8em; 
 }
 
-.halloween-event-button:hover {
-    transform: scale(1.03);
-}
-
-/* Título "Free Key - Jack x Lennon" */
+/* Título */
 h1 {
     color: var(--text-color-title);
-    font-size: 1.6em; /* Ajustado para que se vea como en la imagen */
-    margin-bottom: 20px;
-    font-weight: 500; /* Peso de fuente intermedio */
-    letter-spacing: 0.2px;
+    font-size: 1.5em; 
+    margin-bottom: 15px;
+    font-weight: 600; 
 }
 
 /* Contenedor de la clave */
 .key-box-wrapper {
     position: relative;
     margin-bottom: 25px;
-    border: 1px solid var(--card-border-color); /* Borde similar a la tarjeta */
-    border-radius: 10px; /* Bordes redondeados */
-    background-color: #1e1e2d; /* Fondo de la caja de la clave, un poco más oscuro */
-    min-height: 55px; /* Altura ajustada */
+    background-color: var(--card-bg-color);
+    border: 1px solid #4a4a60; 
+    border-radius: 10px;
+    min-height: 55px; 
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 10px;
-    overflow: hidden; /* Asegura que el texto borroso no se desborde */
 }
 
-/* Mensaje "La selección y copia están bloqueadas" */
-.selection-block-message {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--selection-block-text); /* Rojo para advertencia */
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo oscuro semitransparente */
-    padding: 6px 12px;
-    border-radius: 5px;
-    font-size: 0.85em; /* Tamaño de fuente más pequeño */
-    font-weight: 600;
-    z-index: 10;
-    white-space: nowrap;
-    text-shadow: 0 0 5px rgba(255, 0, 0, 0.3); /* Pequeña sombra roja */
-}
-
-.key-container {
-    flex-grow: 1;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-/* Estilo de la clave: borrosa y con puntos */
+/* EL CÓDIGO ALETATORIO ES VISIBLE Y CLARO */
 .key-text {
-    color: var(--key-text-color);
+    color: var(--text-color-light); 
     font-size: 1.1em;
-    user-select: none;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
+    user-select: none; 
     pointer-events: none;
-    filter: blur(3px); /* Ajustado para ser más sutil como en la imagen */
-    opacity: 0.8; /* Menos transparente */
-    letter-spacing: 2px; /* Espaciado entre caracteres para que los puntos se vean separados */
+    filter: none; 
+    opacity: 1; 
+    letter-spacing: 1px;
+    font-weight: 500;
+}
+
+/* MENSAJE DE ADVERTENCIA MOVIDO FUERA DEL CUADRO PRINCIPAL (Ajustado al pie) */
+.outside-block-message {
+    color: var(--selection-block-text); 
+    background-color: transparent;
+    padding: 0;
+    font-size: 0.85em; 
+    font-weight: 500;
+    margin-top: 10px; 
 }
 
 /* Estilos de los botones GET KEY y COPY KEY */
 .buttons {
-    display: flex;
-    justify-content: space-between;
-    gap: 12px; /* Espacio entre botones ligeramente ajustado */
-    margin-bottom: 15px; /* Espacio antes del mensaje de estado */
+    display: grid;
+    grid-template-columns: 1fr 1fr; 
+    gap: 12px;
+    margin-bottom: 10px;
 }
 
-.action-button {
-    flex-grow: 1;
-    padding: 12px 10px; /* Relleno ajustado */
-    font-size: 1em; /* Tamaño de fuente ligeramente más pequeño */
-    font-weight: 600;
-    border: none;
-    border-radius: 8px; /* Bordes más redondeados */
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-transform: uppercase;
-}
-
-/* GET KEY - Botón naranja */
+/* GET KEY */
 .get-key-button {
     background-color: var(--getkey-btn-bg);
-    color: white;
-    box-shadow: 0 2px 10px rgba(255, 140, 0, 0.4);
+    color: var(--text-color-dark);
+    padding: 14px 10px;
+    font-size: 1em; 
+    font-weight: 700;
+    border-radius: 10px; 
+    box-shadow: 0 2px 8px rgba(255, 140, 0, 0.5);
 }
 
-.get-key-button:hover {
-    background-color: #ff9a00;
-    box-shadow: 0 2px 15px rgba(255, 140, 0, 0.6);
-    transform: translateY(-1px);
-}
-
-/* COPY KEY - Botón gris oscuro con icono */
+/* COPY KEY */
 .copy-key-button {
     background-color: var(--copykey-btn-bg);
     color: var(--text-color-light);
-    border: 1px solid #555; /* Borde sutil */
+    border: none;
     position: relative;
-    padding-left: 35px; /* Ajuste para el icono */
+    padding: 14px 10px 14px 45px; 
+    font-size: 1em; 
+    font-weight: 700;
+    border-radius: 10px; 
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
 }
 
 .copy-key-button::before {
-    content: '📄'; /* Icono de documento */
+    content: '📄'; 
     position: absolute;
-    left: 10px; /* Posición del icono */
+    left: 15px;
     top: 50%;
     transform: translateY(-50%);
-    font-size: 1.1em; /* Tamaño del icono */
-    color: var(--text-color-light); /* Color del icono */
-}
-
-.copy-key-button:hover {
-    background-color: #4a4a60;
-    border-color: #6a6a80;
-    transform: translateY(-1px);
+    font-size: 1.1em;
+    color: var(--text-color-light);
 }
 
 /* Mensaje de estado ("Clave copiada") */
 .status-message {
-    color: var(--text-color-light); /* Blanco */
+    color: var(--text-color-light); 
     font-size: 0.85em;
-    min-height: 1.1em; /* Mantiene el espacio */
-    margin-top: -5px; /* Ajuste de margen */
+    min-height: 1.1em; 
+    margin-top: 5px; 
     font-weight: 500;
 }
