@@ -26,7 +26,7 @@ body {
     overflow: hidden; 
 }
 
-/* 🌧️ Lluvia Animada MÁS VISIBLE */
+/* 🌧️ Lluvia con Gotas Largas y Más Visible */
 body::before {
     content: '';
     position: fixed;
@@ -34,14 +34,15 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    /* Aumentamos la opacidad de los puntos */
+    /* Modificamos el radial-gradient a linear-gradient para crear el efecto de gota */
+    /* Creamos gotas más largas y aumentamos su opacidad */
     background-image: 
-        radial-gradient(circle, rgba(255, 255, 255, 0.10) 1px, transparent 1px),
-        radial-gradient(circle, rgba(255, 255, 255, 0.06) 1px, transparent 1px); 
-    background-size: 40px 40px, 60px 60px;
-    background-position: 0 0, 10px 10px;
+        linear-gradient(rgba(255, 255, 255, 0.15) 1px, transparent 1px), /* Gotas más visibles */
+        linear-gradient(to bottom, rgba(255, 255, 255, 0.1) 1px, transparent 1px); /* Fondo de gotas */
+    background-size: 2px 20px, 2px 20px; /* Ancho de 2px, largo de 20px para las gotas */
+    background-position: 0 0, 10px 10px; /* Posiciones para patrón */
     opacity: 1;
-    animation: rain-fall 15s linear infinite; 
+    animation: rain-fall 10s linear infinite; /* Ajustamos la duración para que "caigan" */
     z-index: -1;
 }
 
@@ -50,13 +51,14 @@ body::before {
         background-position: 0 0, 10px 10px;
     }
     to {
-        background-position: 0 500px, 10px 500px;
+        /* Desplazamiento más grande para simular una caída continua */
+        background-position: 0 100vh, 10px 100vh; 
     }
 }
 
-/* 🐕 LOGO GRANDE y Animación Horizontal */
+/* 🐕 LOGO MÁS GRANDE y Animación Horizontal */
 .main-logo {
-    width: 120px; 
+    width: 200px; /* TAMAÑO DEL LOGO AUMENTADO SIGNIFICATIVAMENTE (antes 120px) */
     height: auto; 
     position: absolute; 
     top: 50px; 
@@ -68,11 +70,9 @@ body::before {
 
 @keyframes move-logo {
     0% { 
-        /* Centrado inicial -30px a la izquierda */
         transform: translate(calc(-50% - 30px), 0); 
     }
     100% { 
-        /* Centrado final +30px a la derecha */
         transform: translate(calc(-50% + 30px), 0); 
     }
 }
@@ -83,7 +83,7 @@ body::before {
     border-radius: 15px; 
     box-shadow: 0 5px 25px rgba(0, 0, 0, 0.6); 
     width: 90%;
-    max-width: 320px; /* Tamaño de móvil/tarjeta */
+    max-width: 320px; 
     border: 1px solid var(--card-border-color);
     margin-bottom: 5px; 
     margin-top: 100px; 
@@ -118,7 +118,7 @@ h1 {
 /* ************************************************** */
 .main-grid {
     display: grid;
-    grid-template-columns: 1fr 1.5fr; /* GET KEY (1fr) vs Clave/Copy (1.5fr) */
+    grid-template-columns: 1fr 1.5fr; 
     gap: 10px; 
     width: 100%;
     align-items: stretch; 
@@ -140,7 +140,7 @@ h1 {
 /* Contenedor de la derecha (Clave + Copy Key) */
 .key-and-copy-container {
     display: grid;
-    grid-template-rows: 1fr 1fr; /* Clave arriba, Botón abajo */
+    grid-template-rows: 1fr 1fr; 
     gap: 10px; 
 }
 
